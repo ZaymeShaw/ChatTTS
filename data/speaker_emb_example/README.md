@@ -14,6 +14,21 @@ https://github.com/ZaymeShaw/ChatTTS
 
 ## example code
 
+```
+#csv
+##load
+spk_emb = torch.tensor(np.genfromtxt('data/speaker_emb_example/std_spk_emb_df-seed2-明亮少御音.csv', delimiter=','))
+##dump
+np.savetxt('data/speaker_emb_example/example_speaker.csv',spk_emb.cpu().detach().numpy())
+
+#pt
+##load
+speaker=torch.load('data/speaker_emb_example/std_spk_emb_df-seed2-明亮少御音.csv')
+##dump
+torch.save(curr_speaker, 'data/speaker_emb_example/example_speaker.csv')
+
+```
+
 ### load speaker embedding from disk
 ```
 import torch
