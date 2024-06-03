@@ -52,7 +52,10 @@ def generate_audio(*args):
             torch.manual_seed(text_seed_input)
 
             text=ChatText.auto_segment([text])
-            text=ChatText.replace(text,replace_map={'。':['？','?'],})
+            text=ChatText.replace(text,replace_map={
+                '。':['？','?'],
+                '':['**'],
+                                                    })
             if refine_text_flag:
                 text = chat.infer(text, 
                                 skip_refine_text=False,
@@ -60,7 +63,10 @@ def generate_audio(*args):
                                 params_refine_text=params_refine_text,
                                 params_infer_code=params_infer_code
                                 )
-            
+            text=ChatText.replace(text,replace_map={
+                '[uv_break]':['？','?','。','.','，',',','!','！','\n',':','：'],
+                                                    })
+            text=ChatText.uvbreaktoken_std(text)
             wav = chat.infer(text, 
                             skip_refine_text=True, 
                             params_refine_text=params_refine_text, 
@@ -87,7 +93,7 @@ def get_block():
         
         with gr.Column():
             with gr.Row():
-                is_used = gr.Checkbox(label="If used.Chat1 must be used", value=True)
+                is_used = gr.Checkbox(label="If used.Chat1 must be used", value=False)
                 refine_text_checkbox = gr.Checkbox(label="Refine text", value=True)
             with gr.Row():
                 top_p_slider = gr.Slider(minimum=0.1, maximum=0.9, step=0.05, value=0.7, label="top_P")

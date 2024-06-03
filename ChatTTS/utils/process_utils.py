@@ -57,6 +57,17 @@ class ChatText:
                     text=text.replace(replace_key,replace_val)
             new_texts.append(text)
         return new_texts
+    @classmethod
+    def uvbreaktoken_std(cls,texts):
+        new_texts=[]
+        for i in range(len(texts)):
+            text=texts[i]
+            while '[uv_break] [uv_break]' in text:
+                text=text.replace('[uv_break] [uv_break]','[uv_break]')
+            if text.endswith('[uv_break]')&(len(text)>10):
+                text=text[:-10]
+            new_texts.append(text)
+        return new_texts
 class ChatWave:
     def wave_concat(wavs,rate=24000):
         import numpy as np
@@ -72,3 +83,24 @@ class ChatWave:
     def wave_std(wav):
         wav=wav/np.median(np.abs(wav))
         return wav
+
+
+# import time
+# class Timer:
+#     def __init__(self):
+#         self.start_time = None
+#         self.total_time = 0
+    
+#     def start(self):
+#         self.start_time = time.time()
+    
+#     def pause(self):
+#         self.total_time += time.time() - self.start_time
+#         self.start_time = None
+    
+#     def resume(self):
+#         self.start_time = time.time()
+    
+#     def reset(self):
+#         self.start_time = None
+#         self.total_time = 0
